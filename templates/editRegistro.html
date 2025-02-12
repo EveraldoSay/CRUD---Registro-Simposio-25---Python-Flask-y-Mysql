@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Registro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Editar Registro</h1>
+        <!-- Mostrar mensajes de Flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="alert alert-{{ messages[0][0] }}">
+            {{ messages[0][1] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form
+            action="{{ url_for('edit_registro', carnet_carrera=registro['carnet_carrera'], carnet_anio=registro['carnet_anio'], carnet_correlativo=registro['carnet_correlativo']) }}"
+            method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="carnet_carrera">Carnet Carrera:</label>
+                    <input type="text" id="carnet_carrera" name="carnet_carrera" class="form-control"
+                        value="{{ registro['carnet_carrera'] }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="carnet_anio">Carnet Año:</label>
+                    <input type="number" id="carnet_anio" name="carnet_anio" class="form-control"
+                        value="{{ registro['carnet_anio'] }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="carnet_correlativo">Carnet Correlativo:</label>
+                    <input type="text" id="carnet_correlativo" name="carnet_correlativo" class="form-control"
+                        value="{{ registro['carnet_correlativo'] }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="primer_nombre">Primer Nombre:</label>
+                    <input type="text" id="primer_nombre" name="primer_nombre" class="form-control"
+                        value="{{ registro['primer_nombre'] }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="segundo_nombre">Segundo Nombre:</label>
+                    <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control"
+                        value="{{ registro['segundo_nombre'] }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="primer_apellido">Primer Apellido:</label>
+                    <input type="text" id="primer_apellido" name="primer_apellido" class="form-control"
+                        value="{{ registro['primer_apellido'] }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="segundo_apellido">Segundo Apellido:</label>
+                    <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control"
+                        value="{{ registro['segundo_apellido'] }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" class="form-control"
+                    value="{{ registro['telefono'] }}">
+            </div>
+            <div class="form-group">
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" class="form-control" value="{{ registro['correo'] }}">
+            </div>
+            <div class="form-group">
+                <label for="pagado">Pagado:</label>
+                <select id="pagado" name="pagado" class="form-control">
+                    <option value="Si" {% if registro['pagado'] == 'Si' %}selected{% endif %}>Sí</option>
+                    <option value="No" {% if registro['pagado'] == 'No' %}selected{% endif %}>No</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control"
+                    placeholder="Seleccione una fecha" required
+                    value="{{ registro['fecha_nacimiento'] if registro['fecha_nacimiento'] else '' }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{{ url_for('verRegistros') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+    <!-- Bootstrap JS INTERACCION DINAMICA-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Inicializar Flatpickr -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            flatpickr("#fecha_nacimiento", {
+                dateFormat: "Y-m-d", // Formato de fecha
+                maxDate: "today", // Fecha máxima permitida (hoy)
+                locale: "es", // Idioma español
+                allowInput: true, // Permitir entrada manual
+                defaultDate: "{{ registro['fecha_nacimiento'] if registro['fecha_nacimiento'] else '' }}", // Valor por defecto
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Columna para la imagen y el botón -->
+        <div class="col-md-4">
+            <div class="left-section text-center">
+                <img src="{{ url_for('static', filename='public/images/Logo25.png') }}" alt="Simposio 2025"
+                    class="img-fluid mx-auto d-block" style="max-width: 200px; height: auto;">
+                <a href="/verRegistros" class="btn btn-primary mt-3">Ver Registros</a>
+            </div>
+        </div>
+        <!-- Columna grafica -->
+        <div class="col-md-8">
+            <h2 class="text-center">Distribución de Registros por Rango de Edad</h2>
+            <div class="chart-container" style="position: relative; height:40vh; width:60vw;">
+                <canvas id="edadBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Datos de los rangos de edad y cantidad de registros
+    var rangosEdad = ["0-20", "21-40", "41-60", "Mayores de 60"];
+    var cantidadRegistros = [150, 300, 200, 50]; // Ejemplo de datos, lo trabajamos en tiempo real pero hay errores con script
+    // Crear el gráfico de barras
+    var ctx = document.getElementById('edadBarChart').getContext('2d');
+    var edadBarChart = new Chart(ctx, {
+        type: 'bar', // Tipo gráfico
+        data: {
+            labels: rangosEdad, // Rangos de edad en el eje X
+            datasets: [{
+                label: 'Cantidad de Registros',
+                data: cantidadRegistros, // Cantidad en el eje Y
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)', // Color para 0-20
+                    'rgba(54, 162, 235, 0.6)', // Color para 21-40
+                    'rgba(75, 192, 192, 0.6)', // Color para 41-60
+                    'rgba(153, 102, 255, 0.6)' // Color para mayores de 60
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Rango de Edad', // Etiqueta del eje X
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        display: false // Ocultar la cuadrícula del eje X
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Registros', // Etiqueta del eje Y
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        display: true,
+                        color: 'rgba(200, 200, 200, 0.3)' // Color de la cuadrícula
+                    },
+                    ticks: {
+                        stepSize: 50, // Incrementos de 50 en 50
+                        beginAtZero: true // El eje Y empieza desde cero
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false // Ocultar la leyenda
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function (context) {
+                            return `Registros: ${context.raw}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

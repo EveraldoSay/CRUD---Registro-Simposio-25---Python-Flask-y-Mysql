@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Nuevo Registro</h2>
+    <form action="{{ url_for('create_registro') }}" method="POST">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="carnet_carrera">Carnet Carrera:</label>
+                <input type="text" id="carnet_carrera" name="carnet_carrera" class="form-control"
+                    value="{{ carnet_carrera or '' }}" required><br>
+            </div>
+            <div class="col-md-4">
+                <label for="carnet_anio">Carnet Año:</label>
+                <input type="number" id="carnet_anio" name="carnet_anio" class="form-control"
+                    value="{{ carnet_anio or '' }}" required><br>
+            </div>
+            <div class="col-md-4">
+                <label for="carnet_correlativo">Carnet Correlativo:</label>
+                <input type="text" id="carnet_correlativo" name="carnet_correlativo" class="form-control"
+                    value="{{ carnet_correlativo or '' }}" required><br>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="primer_nombre">Primer Nombre:</label>
+                <input type="text" id="primer_nombre" name="primer_nombre" class="form-control"
+                    value="{{ primer_nombre or '' }}" required><br>
+            </div>
+            <div class="col-md-4">
+                <label for="segundo_nombre">Segundo Nombre:</label>
+                <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control"
+                    value="{{ segundo_nombre or '' }}"><br>
+            </div>
+            <div class="col-md-4">
+                <label for="primer_apellido">Primer Apellido:</label>
+                <input type="text" id="primer_apellido" name="primer_apellido" class="form-control"
+                    value="{{ primer_apellido or '' }}" required><br>
+            </div>
+            <div class="col-md-4">
+                <label for="segundo_apellido">Segundo Apellido:</label>
+                <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control"
+                    value="{{ segundo_apellido or '' }}"><br>
+            </div>
+        </div>
+        <input type="text" name="phone" class="form-control mb-2" placeholder="Teléfono" value="{{ phone or '' }}"
+            required>
+        <input type="email" name="email" class="form-control mb-2" placeholder="Correo electrónico"
+            value="{{ email or '' }}" required>
+        <div class="form-group mb-3">
+            <label for="pagado">Pagado:</label>
+            <select name="pagado" class="form-control" required>
+                <option value="Si" {% if pagado == 'Si' %}selected{% endif %}>Sí</option>
+                <option value="No" {% if pagado == 'No' %}selected{% endif %}>No</option>
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control"
+                placeholder="Seleccione una fecha" required value="{{ fecha_nacimiento if fecha_nacimiento else '' }}">
+        </div>
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{{ url_for('verRegistros') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

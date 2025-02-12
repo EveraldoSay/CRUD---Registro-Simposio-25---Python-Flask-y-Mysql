@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Registros</h2>
+    <button class="btn btn-primary mb-3" onclick="location.href='/createRegistro'">Nuevo Registro</button>
+    <!-- Barra de búsqueda por nombre a nuestro inscritos al evento -->
+    <form action="{{ url_for('verRegistros') }}" method="GET" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..."
+                value="{{ request.args.get('q', '') }}">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </div>
+    </form>
+    <!-- Tabla VER -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Carnet</th>
+                <th>Nombre Completo</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Pagado</th>
+                <th>Fecha Nacimiento A-D-M</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td>{{ registro[1] }}-{{ registro[2] }}-{{ registro[3] }}</td>
+                <td>{{ registro[4] }} {{ registro[5] }} {{ registro[6] }} {{ registro[7] }}</td>
+                <td>{{ registro[8] }}</td>
+                <td>{{ registro[9] }}</td>
+                <td>{{ 'Sí' if registro[10] == 1 else 'No' }}</td>
+                <td>{{ registro[11] }}</td>
+                <td>
+                    <a href="{{ url_for('edit_registro', carnet_carrera=registro[1], carnet_anio=registro[2], carnet_correlativo=registro[3]) }}"
+                        class="btn btn-warning btn-sm">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <form action="{{ url_for('delete_registro', id_registro=registro[0]) }}" method="POST"
+                        style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('¿Estás seguro de eliminar este registro?')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
