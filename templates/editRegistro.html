@@ -83,8 +83,8 @@
                     placeholder="Seleccione una fecha" required
                     value="{{ registro['fecha_nacimiento'] if registro['fecha_nacimiento'] else '' }}">
             </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             <a href="{{ url_for('verRegistros') }}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </form>
     </div>
     <!-- Bootstrap JS INTERACCION DINAMICA-->
